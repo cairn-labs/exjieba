@@ -1,6 +1,7 @@
 defmodule Mix.Tasks.Compile.Segment do
   def run(_) do
-    Mix.shell.cmd "make segment"
+    0 = Mix.shell.cmd "LDLIBS=-stdc++ make segment"
+    :ok
   end
 end
 
@@ -10,14 +11,17 @@ defmodule Exjieba.Mixfile do
   def project do
     [ app: :exjieba,
       version: "0.0.2",
-      elixir: "~> 1.0.0",
+      elixir: ">= 1.0.0",
       compilers: [ :segment, :elixir, :app ],
       deps: deps
     ]
   end
 
   def application do
-    [mod: { ExJieba, [] }]
+    [
+      mod: { ExJieba, [] },
+      extra_applications: [:logger]
+    ]
   end
 
   defp deps do
